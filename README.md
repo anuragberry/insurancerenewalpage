@@ -1,2 +1,2 @@
-# insurance-renewal-page
+# insurancerenewalpage
 Insurance renewal page
