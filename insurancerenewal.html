@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Virtus Insurance Renewal</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial,
+          sans-serif;
+        background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 30px;
+        font-size: 20px;
+        color: #333;
+      }
+
+      .header-icon {
+        font-size: 32px;
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 30px;
+      }
+
+      .left-section {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .insurer-card {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .insurer-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .insurer-logo {
+        width: 100px;
+      }
+
+      .insurer-info h2 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 4px;
+      }
+
+      .claims-settled {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .claims-settled strong {
+        color: #2e7d32;
+      }
+
+      .plan-details {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        padding: 16px;
+        background: #f8f9fa;
+        border-radius: 8px;
+      }
+
+      .plan-detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .plan-detail-label {
+        font-size: 13px;
+        color: #666;
+      }
+
+      .plan-detail-value {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .dropdown-icon {
+        font-size: 14px;
+        color: #999;
+      }
+
+      .plans-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .plan-card {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        position: relative;
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .plan-card:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      }
+
+      .plan-card.selected {
+        border-color: #4caf50;
+        background: #f1f8f4;
+      }
+
+      .plan-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 8px;
+      }
+
+      .plan-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 4px;
+      }
+
+      .plan-subtitle {
+        font-size: 13px;
+        color: #666;
+      }
+
+      .radio-button {
+        width: 24px;
+        height: 24px;
+        border: 2px solid #ddd;
+        border-radius: 50%;
+        position: relative;
+      }
+
+      .plan-card.selected .radio-button {
+        border-color: #4caf50;
+        background: white;
+      }
+
+      .plan-card.selected .radio-button::after {
+        content: "✓";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        background: #4caf50;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+
+      .badge-popular {
+        background: #d4edda;
+        color: #2e7d32;
+      }
+
+      .badge-info {
+        background: #e3f2fd;
+        color: #1565c0;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .price-section {
+        margin: 20px 0;
+      }
+
+      .price {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+      }
+
+      .price-old {
+        font-size: 16px;
+        color: #999;
+        text-decoration: line-through;
+        margin-left: 8px;
+      }
+
+      .features-list {
+        list-style: none;
+        margin-top: 20px;
+      }
+
+      .features-list li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 0;
+        font-size: 14px;
+        color: #333;
+      }
+
+      .features-list li::before {
+        content: "✓";
+        color: #4caf50;
+        font-weight: bold;
+      }
+
+      .customize-btn {
+        width: 100%;
+        padding: 12px;
+        background: white;
+        border: 2px solid #2196f3;
+        color: #2196f3;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+      }
+
+      .customize-btn:hover {
+        background: #2196f3;
+        color: white;
+      }
+
+      .premium-summary {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        position: sticky;
+        top: 20px;
+      }
+
+      .summary-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+
+      .summary-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .kyc-badge {
+        background: #e3f2fd;
+        color: #1565c0;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .summary-row:last-of-type {
+        border-bottom: none;
+      }
+
+      .summary-label {
+        color: #666;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .summary-value {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .summary-value.positive {
+        color: #2e7d32;
+      }
+
+      .summary-value.highlight {
+        font-size: 20px;
+        color: #2e7d32;
+      }
+
+      .total-section {
+        background: #fff8e1;
+        padding: 16px;
+        border-radius: 8px;
+        margin: 16px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .pay-button {
+        width: 100%;
+        padding: 16px;
+        background: #2196f3;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        margin: 16px 0;
+      }
+
+      .pay-button:hover {
+        background: #1976d2;
+      }
+
+      .terms-checkbox {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        font-size: 12px;
+        color: #666;
+        line-height: 1.5;
+      }
+
+      .terms-checkbox input {
+        margin-top: 2px;
+      }
+
+      .terms-checkbox a {
+        color: #2196f3;
+        text-decoration: none;
+      }
+
+      .cashless-section {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        margin-top: 20px;
+      }
+
+      .cashless-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 16px;
+        text-align: center;
+      }
+
+      .cashless-tabs {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .cashless-tab {
+        padding: 8px 16px;
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .cashless-tab:hover {
+        background: #e0e0e0;
+      }
+
+      .info-box {
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        color: #666;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .info-icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .chat-widget {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 12px;
+      }
+
+      .chat-message {
+        background: white;
+        padding: 12px 16px;
+        border-radius: 20px 20px 4px 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        max-width: 250px;
+      }
+
+      .chat-greeting {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 4px;
+      }
+
+      .chat-text {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .chat-button {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        position: relative;
+      }
+
+      .chat-notification {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #f44336;
+        color: white;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      @media (max-width: 1200px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+
+        .plans-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .premium-summary {
+          position: static;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <span class="header-icon">👋</span>
+        <span>Hi, your Virtus renewal plan is ready</span>
+      </div>
+
+      <div class="main-content">
+        <div class="left-section">
+          <div class="insurer-card">
+            <div class="plan-details">
+              <div class="plan-detail-item">
+                <span class="plan-detail-label">Your Previous Insurer</span>
+                <div class="insurer-header">
+                  <img
+                    src="https://via.placeholder.com/100x40?text=Zurich+Kotak"
+                    alt="Zurich Kotak"
+                    class="insurer-logo"
+                  />
+                  <div class="insurer-info">
+                    <h2>Zurich Kotak</h2>
+                    <p class="claims-settled">
+                      Claims Settled <strong>98%</strong>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="plan-detail-item">
+                <span class="plan-detail-label">Plan type</span>
+                <span class="plan-detail-value">Own Damage</span>
+              </div>
+              <div class="plan-detail-item">
+                <span class="plan-detail-label">IDV</span>
+                <span class="plan-detail-value">
+                  ₹12,63,783
+                  <span class="dropdown-icon">▼</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="plans-grid">
+            <div class="plan-card">
+              <div class="plan-header">
+                <div>
+                  <h3 class="plan-title">Basics Only</h3>
+                  <p class="plan-subtitle">Bare minimum essentials</p>
+                </div>
+                <div class="radio-button"></div>
+              </div>
+
+              <div class="price-section">
+                <span class="price">₹4,120</span>
+                <span class="price-old">₹5,062</span>
+              </div>
+
+              <ul class="features-list">
+                <li>Personal Accident Cover</li>
+              </ul>
+            </div>
+
+            <div class="plan-card">
+              <div class="plan-header">
+                <div>
+                  <h3 class="plan-title">Smart Coverage</h3>
+                  <p class="plan-subtitle">
+                    Feel Secure with selective add-ons
+                  </p>
+                </div>
+                <div class="radio-button"></div>
+              </div>
+
+              <span class="badge badge-popular">Most Popular</span>
+              <div class="badge badge-info">
+                <span>🎯</span>
+                <span>Your last year's addons!</span>
+              </div>
+
+              <div class="price-section">
+                <span class="price">₹12,067</span>
+                <span class="price-old">₹13,163</span>
+              </div>
+
+              <ul class="features-list">
+                <li>Zero Depreciation</li>
+                <li>24x7 Roadside Assistance</li>
+                <li>Consumables</li>
+                <li>Engine Protection Cover</li>
+                <li>Key & Lock replacement</li>
+                <li>Invoice Price Cover</li>
+                <li>Personal Accident Cover</li>
+              </ul>
+            </div>
+
+            <div class="plan-card selected">
+              <div class="plan-header">
+                <div>
+                  <h3 class="plan-title">Everything Included</h3>
+                  <p class="plan-subtitle">
+                    Customize your coverage completely
+                  </p>
+                </div>
+                <div class="radio-button"></div>
+              </div>
+
+              <div class="badge badge-info">
+                <span>⭐</span>
+                <span>Preferred by new car owners</span>
+              </div>
+
+              <div class="price-section">
+                <span class="price">₹12,161</span>
+                <span class="price-old">₹13,257</span>
+              </div>
+
+              <ul class="features-list">
+                <li>Zero Depreciation</li>
+                <li>24x7 Roadside Assistance</li>
+                <li>Consumables</li>
+                <li>Engine Protection Cover</li>
+                <li>Key & Lock replacement</li>
+                <li>Invoice Price Cover</li>
+                <li>Loss of Personal Belongings</li>
+                <li>Personal Accident Cover</li>
+              </ul>
+
+              <button class="customize-btn">Customize Plan</button>
+            </div>
+          </div>
+
+          <div class="cashless-section">
+            <h3 class="cashless-title">Cashless Anywhere</h3>
+            <div class="cashless-tabs">
+              <button class="cashless-tab">Repair Anywhere</button>
+              <button class="cashless-tab">Zero Paper Claims</button>
+              <button class="cashless-tab">Spot Claims Upto Rs. 20,000</button>
+            </div>
+            <div class="info-box">
+              <div class="info-icon">🛡️</div>
+              <div>
+                <p>
+                  <strong>All insurers offer the same standard coverage</strong>
+                </p>
+                <p>See what's covered</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="premium-summary">
+          <div class="summary-header">
+            <h3 class="summary-title">Premium Summary</h3>
+            <span class="kyc-badge">No KYC required</span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">Base premium</span>
+            <span class="summary-value">₹5,480</span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              Add-ons and Covers
+              <span class="dropdown-icon">▼</span>
+            </span>
+            <span class="summary-value">₹7,424</span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              Discounts
+              <span class="dropdown-icon">▼</span>
+            </span>
+            <span class="summary-value positive">₹-1,096</span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              <span>✓</span>
+              Added Personal Accident Cover
+              <span class="dropdown-icon">▼</span>
+            </span>
+            <span class="summary-value">₹353</span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">Net premium</span>
+            <span class="summary-value">₹12,161</span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">GST @18%</span>
+            <span class="summary-value">₹2,125</span>
+          </div>
+
+          <div class="total-section">
+            <span>💰</span>
+            <span style="flex: 1; font-weight: 600">You'll Pay</span>
+            <span class="summary-value highlight">₹14,286</span>
+          </div>
+
+          <button class="pay-button">Pay securely →</button>
+
+          <div class="terms-checkbox">
+            <input type="checkbox" id="terms" checked />
+            <label for="terms">
+              I agree to the <a href="#">terms & conditions</a> and confirm: my
+              previous policy is a comprehensive policy with no claims, my car
+              is not a commercial vehicle and my car has a valid PUC
+              certificate.
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-widget">
+      <div class="chat-message">
+        <div class="chat-greeting">Hey 👋 I'm Megha</div>
+        <div class="chat-text">Need help with car insurance?</div>
+      </div>
+      <button class="chat-button">
+        <span class="chat-notification">2</span>
+        💬
+      </button>
+    </div>
+  </body>
+</html>
